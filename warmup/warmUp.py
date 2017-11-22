@@ -21,7 +21,7 @@ def returnDictionary(D):
     >>> returnDictionary(coleridge) == {'in': 'xanadu', 'did': 'kubla khan'}
     True
     """
-    pass
+    return D
 
 def keyInDict(D, K):
     """
@@ -36,7 +36,7 @@ def keyInDict(D, K):
     >>> keyInDict(coleridge, 'decree')
     False
     """
-    pass
+    return K in D
 
 def returnKeyVal(D, K):
     """
@@ -49,7 +49,7 @@ def returnKeyVal(D, K):
     >>> returnKeyVal(coleridge, 'decree')
     {}
     """
-    pass
+    return D[K]
 
 def setKeyVal(D, K, V):
     """
@@ -62,7 +62,8 @@ def setKeyVal(D, K, V):
     >>> setKeyVal({'through': 'caverns'}, 'measureless', 'to man') == {'through': 'caverns', 'measureless': 'to man'}
     True
     """
-    pass
+    D[K] = V
+    return D
 
 def setKeyValList(D, K, V1, V2, V3, V4):
     """
@@ -74,7 +75,8 @@ def setKeyValList(D, K, V1, V2, V3, V4):
     >>> setKeyValList({}, 'down', 'to', 'a', 'sunless', 'sea') == {'down': ['to', 'a', 'sunless', 'sea']}
     True
     """
-    pass
+    D[K] = [V1, V2, V3, V4]
+    return D
 
 def asciiAssociate():
     """
@@ -89,7 +91,8 @@ def asciiAssociate():
     """
     # You may find this useful
     from string import ascii_lowercase as alphabet
-    pass
+    asciiDict = dict([(chr(i),i) for i in range (97, 123)])
+    return asciiDict
 
 def getColor(favoriteColors, name):
     """
@@ -104,7 +107,7 @@ def getColor(favoriteColors, name):
     >>> getColor({'Coleridge': ['green']}, 'Coleridge')
     'green'
     """
-    pass
+    return favoriteColors[name][0]
 
 def translate(vocab, word, language):
     """
@@ -120,7 +123,7 @@ def translate(vocab, word, language):
     >>> translate({'river': {'Spanish': 'rio', 'French': 'riviere'}}, 'river', 'French')
     'riviere'
     """
-    pass
+    return vocab[word][language]
 
 def nestedDictionary():
     """
@@ -132,7 +135,8 @@ def nestedDictionary():
     >>> nestedDictionary() == {'a': {}, 'b': {}, 'c': {}, 'd': {}, 'e': {}, 'f': {}, 'g': {}, 'h': {}, 'i': {}, 'j': {}, 'k': {}, 'l': {}, 'm': {}, 'n': {}, 'o': {}, 'p': {}, 'q': {}, 'r': {}, 's': {}, 't': {}, 'u': {}, 'v': {}, 'w': {}, 'x': {}, 'y': {}, 'z': {}}
     True
     """
-    pass
+    D = dict([(chr(i),{}) for i in range (97, 123)])
+    return D
 
 def nestedDictionary3D(L1, L2):
     """
@@ -147,7 +151,7 @@ def nestedDictionary3D(L1, L2):
     >>> nestedDictionary3D(['dolphin', 'panda'], ['diet', 'habitat']) == {'dolphin': {'diet': {}, 'habitat': {}}, 'panda': {'diet': {}, 'habitat': {}}}
     True
     """
-    pass
+    return {first: {second: {} for second in L2} for first in L1}
 
 def valueFrom3D(D, K1, K2, K3):
     """
@@ -161,7 +165,7 @@ def valueFrom3D(D, K1, K2, K3):
     >>> valueFrom3D({'singing': {'of': {'mount': 'abora'}}}, 'singing', 'of', 'mount')
     'abora'
     """
-    pass
+    return D[K1][K2][K3]
 
 def keysIn2D(D, L1, L2):
     """
@@ -176,7 +180,10 @@ def keysIn2D(D, L1, L2):
     >>> keysIn2D({'xanadu': 'kubla khan'}, ['in', 'xanadu'], ['did', 'kubla khan'])
     True
     """
-    pass
+    if L1[-1] in D and D[L1[-1]] == L2[-1]:
+        return True
+    else:
+        return False
 
 class warmup(object):
     """A simple class with methods to get you used to how python classes work."""
@@ -191,7 +198,7 @@ class warmup(object):
         >>> w.bandName
         'The Beatles'
         """
-        pass
+        self.bandName = 'The Beatles'
 
     def setAlbum(self, album):
         """
@@ -204,7 +211,7 @@ class warmup(object):
         >>> w.album
         'Abbey Road'
         """
-        pass
+        self.album = album
 
     def printAlbum(self):
         """
@@ -217,7 +224,7 @@ class warmup(object):
         >>> w.printAlbum()
         'Twist and Shout by The Beatles'
         """
-        pass
+        return self.album + " by " + self.bandName
 
 
 ###############################################################################
