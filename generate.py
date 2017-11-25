@@ -11,7 +11,7 @@ from models.bigramModel import *
 from models.trigramModel import *
 
 # FIXME Add your team name
-TEAM = 'YOUR NAME HERE'
+TEAM = 'Creative A.I. but not a creative name'
 LYRICSDIRS = ['the_beatles']
 MUSICDIRS = ['gamecube']
 WAVDIR = 'wav/'
@@ -54,7 +54,6 @@ def trainLyricModels(lyricDirs):
               instance of each of the NGramModel child classes and trains
               them using the text loaded from the data loader. The list
               should be in tri-, then bi-, then unigramModel order.
-
               Returns the list of trained models.
     """
     models = [TrigramModel(), BigramModel(), UnigramModel()]
@@ -81,8 +80,12 @@ def trainMusicModels(musicDirs):
     """
     models = [TrigramModel(), BigramModel(), UnigramModel()]
     # call dataLoader.loadMusic for each directory in musicDirs
-
-    pass
+    
+    for mdir in musicDirs:
+        music = dataLoader.loadMusic(mdir)
+        for model in models:
+            model.trainModel(music)
+    return models
 
 def selectNGramModel(models, sentence):
     """
@@ -94,7 +97,10 @@ def selectNGramModel(models, sentence):
               (Remember that you wrote a function that checks if a model can
               be used to pick a word for a sentence!)
     """
-    pass
+    for model in models:
+        if model.trainingDataHasNGram(sentence):
+            return model
+    return models[2];
 
 def generateLyricalSentence(models, desiredLength):
     """
@@ -110,7 +116,11 @@ def generateLyricalSentence(models, desiredLength):
               NGramModels, see the spec.
     """
     sentence = ['^::^', '^:::^']
-    pass
+    currentWord = selectNGramModel(models, sentence);
+    while not sentenceTooLong(desiredLength, len(sentence)-2) & currentWord.getNextToken(sentence) is not '$:::$':
+        sentence.insert(len(sentence)-1, currentWord.getNextToken(sentence))
+        currentWord = selectNGramModel(models, sentence)
+    return sentence[1:len(sentence)-1]
 
 def generateMusicalSentence(models, desiredLength, possiblePitches):
     """
@@ -122,7 +132,11 @@ def generateMusicalSentence(models, desiredLength, possiblePitches):
               should be exactly the same as the core.
     """
     sentence = ['^::^', '^:::^']
-    pass
+    currentNote = selectNGramModel(models, sentence);
+    while not sentenceTooLong(desiredLength, len(sentence) - 2) & currentNote.getNextNote(sentence, possiblePitches) is not '$:::$':
+        sentence.insert(len(sentence) - 1, currentNote.getNextNote(sentence, possiblePitches))
+        currentNote = selectNGramModel(models, sentence)
+    return sentence[1:len(sentence) - 1]
 
 def runLyricsGenerator(models):
     """
@@ -131,9 +145,10 @@ def runLyricsGenerator(models):
     Effects:  generates a verse one, a verse two, and a chorus, then
               calls printSongLyrics to print the song out.
     """
-    verseOne = []
-    verseTwo = []
-    chorus = []
+    verseOne = generateLyricalSentence(models, 5)
+    verseTwo = generateLyricalSentence(models, 7)
+    chorus = generateLyricalSentence(models, 5)
+    printSongLyrics(verseOne, verseTwo, chorus)
     pass
 
 def runMusicGenerator(models, songName):
@@ -142,8 +157,16 @@ def runMusicGenerator(models, songName):
     Modifies: nothing
     Effects:  runs the music generator as following the details in the spec.
     """
-    pass
-
+    key = random.choice(KEY_SIGNATURES.keys())
+    part1 = generateMusicalSentence(models, 10, KEY_SIGNATURES[key])
+    part2 = generateMusicalSentence(models, 15, KEY_SIGNATURES[key])
+    part3 = generateMusicalSentence(models, 25, KEY_SIGNATURES[key])
+    part4 = generateMusicalSentence(models, 25, KEY_SIGNATURES[key])
+    part5 = generateMusicalSentence(models, 15, KEY_SIGNATURES[key])
+    part6 = generateMusicalSentence(models, 10, KEY_SIGNATURES[key])
+    tuplesList = [tuple(part1), tuple(part2), tuple(part3), tuple(part4), tuple(part5), tuple(part6)]
+    pysynth.make_wav(tuplesList, fn=songName)
+    
 ###############################################################################
 # Reach
 ###############################################################################
@@ -160,7 +183,6 @@ def main():
     Modifies: Nothing
     Effects:  This is your main function, which is done for you. It runs the
               entire generator program for both the reach and the core.
-
               It prompts the user to choose to generate either lyrics or music.
     """
     # FIXME uncomment these lines when ready
@@ -194,4 +216,4 @@ if __name__ == '__main__':
     main()
     # note that if you want to individually test functions from this file,
     # you can comment out main() and call those functions here. Just make
-    # sure to call main() in your final submission of the project!
+# sure to call main() in your final submission of the project!
