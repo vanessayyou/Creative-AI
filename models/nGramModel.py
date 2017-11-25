@@ -92,8 +92,20 @@ class NGramModel(object):
         Effects:  returns a candidate item (a key in the candidates dictionary)
                   based on the algorithm described in the spec.
         """
-        pass
+        token = list(candidates.keys())
+        count = list(candidates.values())
 
+        cumulative = []
+        cumulative.append(count[0])
+        for i in range(1, len(count)):
+            cumulative.append(cumulative[i-1] + count[i])
+        
+        randomnumber = random.randrange(0,10)
+        for j in range(0, len(token)):
+            if (count[j] > randomnumber):
+                return token[j]
+        
+        
     def getNextToken(self, sentence):
         """
         Requires: sentence is a list of strings, and this model can be used to
@@ -104,7 +116,8 @@ class NGramModel(object):
                   For more information on how to put all these functions
                   together, see the spec.
         """
-        pass
+        return self.weightedChoice(self.getCandidateDictionary(sentence))
+
 
     def getNextNote(self, musicalSentence, possiblePitches):
         """
@@ -119,7 +132,7 @@ class NGramModel(object):
                   from getNextToken, see the spec.
         """
         pass
-
+        
 ###############################################################################
 # Main
 ###############################################################################
@@ -128,5 +141,7 @@ if __name__ == '__main__':
     # Add your tests here
     text = [ ['the', 'quick', 'brown', 'fox'], ['the', 'lazy', 'dog'] ]
     choices = { 'the': 2, 'quick': 1, 'brown': 1 }
+    choicestwo = { 'north': 4, 'south': 1, 'east': 3, 'west': 2 }
     nGramModel = NGramModel()
     print(nGramModel)
+    print(nGramModel.weightedChoice(choicestwo))
