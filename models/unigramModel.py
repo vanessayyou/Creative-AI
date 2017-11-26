@@ -1,5 +1,6 @@
 import random
 from nGramModel import *
+from collections import Counter
 
 class UnigramModel(NGramModel):
 
@@ -28,7 +29,12 @@ class UnigramModel(NGramModel):
                   symbols to be included as their own tokens in
                   self.nGramCounts. For more details, see the spec.
         """
-        pass
+        listofwords = self.prepData(text)
+        flattenedList = [item for sublist in listofwords for item in sublist]
+        repetitions = Counter(flattenedList)
+        self.nGramCounts = dict(repetitions)
+        del self.nGramCounts['^::^']
+        del self.nGramCounts['^:::^']
 
     def trainingDataHasNGram(self, sentence):
         """
@@ -38,7 +44,7 @@ class UnigramModel(NGramModel):
                   the next token for the sentence. For explanations of how this
                   is determined for the UnigramModel, see the spec.
         """
-        pass
+        return bool(self.nGramCounts)
 
     def getCandidateDictionary(self, sentence):
         """
@@ -49,7 +55,7 @@ class UnigramModel(NGramModel):
                   to the current sentence. For details on which words the
                   UnigramModel sees as candidates, see the spec.
         """
-        pass
+        return self.nGramCounts
 
 ###############################################################################
 # Main
@@ -60,4 +66,5 @@ if __name__ == '__main__':
     text = [ ['the', 'quick', 'brown', 'fox'], ['the', 'lazy', 'dog'] ]
     sentence = [ 'brown' ]
     unigramModel = UnigramModel()
-    print(unigramModel)
+    print(unigramModel.trainModel(text))
+    print(unigramModel.trainingDataHasNGram(sentence))
