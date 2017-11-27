@@ -131,7 +131,21 @@ class NGramModel(object):
                   For details on how to do this and how this will differ
                   from getNextToken, see the spec.
         """
-        pass
+        allCandidates = self.getCandidateDictionary(musicalSentence)
+        constrainedCandidates = {}
+        for key in allCandidates.keys():
+          if key == '$:::$':
+            constrainedCandidates[key] == allCandidates[key]
+          else:
+            note = key[0]
+            note_part = ''.join([i for i in note if not i.isdigit()])
+            if note_part in possiblePitches:
+              constrainedCandidates[key] == allCandidates[key]
+        if not constrainedCandidates:
+          pysynth_tuple = (random.choice(possiblePitches) + '4', random.choice(NOTE_DURATIONS))
+          return pysynth_tuple
+        else:
+          return self.weightedChoice(constrainedCandidates)
         
 ###############################################################################
 # Main
@@ -144,4 +158,4 @@ if __name__ == '__main__':
     choicestwo = { 'north': 4, 'south': 1, 'east': 3, 'west': 2 }
     nGramModel = NGramModel()
     print(nGramModel)
-    print(nGramModel.weightedChoice(choicestwo))
+    print(nGramModel.weightedChoice(choicestwo))\
