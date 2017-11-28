@@ -58,7 +58,7 @@ def trainLyricModels(lyricDirs):
     """
     models = [TrigramModel(), BigramModel(), UnigramModel()]
     for ldir in lyricDirs:
-        lyrics = dataLoader.loadLyrics(ldir)
+        lyrics = loadLyrics(ldir)
         for model in models:
             model.trainModel(lyrics)
     return models
@@ -82,7 +82,7 @@ def trainMusicModels(musicDirs):
     # call dataLoader.loadMusic for each directory in musicDirs
     
     for mdir in musicDirs:
-        music = dataLoader.loadMusic(mdir)
+        music = loadMusic(mdir)
         for model in models:
             model.trainModel(music)
     return models
@@ -186,23 +186,23 @@ def main():
               It prompts the user to choose to generate either lyrics or music.
     """
     # FIXME uncomment these lines when ready
-    # print('Starting program and loading data...')
-    # lyricsModels = trainLyricsModels(LYRICSDIRS)
-    # musicModels = trainMusicModels(MUSICDIRS)
-    # print('Data successfully loaded')
+    print('Starting program and loading data...')
+    lyricsModels = trainLyricModels(LYRICSDIRS)
+    musicModels = trainMusicModels(MUSICDIRS)
+    print('Data successfully loaded')
 
     print('Welcome to the ' + TEAM + ' music generator!')
     while True:
         try:
             userInput = int(raw_input(PROMPT))
             if userInput == 1:
-                # FIXME uncomment this line when ready
-                # runLyricsGenerator(lyricsModels)
+                #FIXME uncomment this line when ready
+                runLyricsGenerator(lyricsModels)
                 print("Under construction")
             elif userInput == 2:
                 # FIXME uncomment these lines when ready
-                # songName = raw_input('What would you like to name your song? ')
-                # runMusicGenerator(musicModels, WAVDIR + songName + '.wav')
+                songName = raw_input('What would you like to name your song? ')
+                runMusicGenerator(musicModels, WAVDIR + songName + '.wav')
                 print("Under construction")
             elif userInput == 3:
                 print('Thank you for using the ' + TEAM + ' music generator!')

@@ -46,7 +46,7 @@ class BigramModel(NGramModel):
         for unigram1, unigram2 in counts:
             self.nGramCounts[unigram1][unigram2] = counts[(unigram1, unigram2)]
         self.nGramCounts = dict(self.nGramCounts)
-        print(self.nGramCounts)
+        #print(self.nGramCounts)
 
     def trainingDataHasNGram(self, sentence):
         """s
@@ -58,6 +58,8 @@ class BigramModel(NGramModel):
         """
         if sentence[-1] in self.nGramCounts.keys():
           return True
+        else:
+          return False
 
     def getCandidateDictionary(self, sentence):
         """

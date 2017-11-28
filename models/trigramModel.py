@@ -39,14 +39,16 @@ class TrigramModel(NGramModel):
         self.nGramCounts = defaultdict(dict)
         listofwords = self.prepData(text)
         flattenList =[item for sublist in listofwords for item in sublist]
-        stringofwords = ' '.join(flattenList)
+        print flattenList
+        stringofwords = ' '.join(str(flattenList))
         counts = Counter(trigramiteration(words = stringofwords.split()))
+        #counts = Counter(trigramiteration(words = flattenList))
         
         for unigram, bigram, trigram in counts:
             self.nGramCounts[unigram][bigram] = {}
             self.nGramCounts[unigram][bigram][trigram] = counts[(unigram, bigram, trigram)]
         self.nGramCounts = dict(self.nGramCounts)
-        print self.nGramCounts
+        #print self.nGramCounts
     
 
     def trainingDataHasNGram(self, sentence):
@@ -57,21 +59,14 @@ class TrigramModel(NGramModel):
                   the next token for the sentence. For explanations of how this
                   is determined for the TrigramModel, see the spec.
         """
-        
-        keysUni = self.nGramCounts.keys()
-        for unigram in keysUni:
-            keysBi = self.nGramCounts[unigram].keys()
-            for bigram in keysBi:
-                if (sentence[1] in self.nGramCounts[unigram][bigram] and sentence[2] in self.nGramCounts[unigram][bigram]):
-                    return True
-        return False
-        
-        """
-        for unigram, bigram in self.nGramCounts.iteritems():
-            if (sentence[1] in self.nGramCounts[unigram][bigram] and sentence[2] in self.nGramCounts[unigram][bigram]):
-                return True
-        return False
-        """
+
+        if sentence[-2] in self.nGramCounts.keys():
+          if sentence[-1] in self.nGramCounts[sentence[-2]].keys():
+            return True
+          else:
+            return False
+        else:
+          return False
     
 
     def getCandidateDictionary(self, sentence):
