@@ -39,14 +39,11 @@ class BigramModel(NGramModel):
 
         self.nGramCounts = defaultdict(dict)
         listofwords = self.prepData(text)
-        flattenlist = [item for sublist in listofwords for item in sublist ]
-        stringofwords = ' '.join(flattenlist)
-        counts = Counter(bigramiteration(words = stringofwords.split()))
-
+        flattenList = [item for sublist in listofwords for item in sublist ]
+        counts = Counter(bigramiteration(words = flattenList))
         for unigram1, unigram2 in counts:
             self.nGramCounts[unigram1][unigram2] = counts[(unigram1, unigram2)]
         self.nGramCounts = dict(self.nGramCounts)
-        #print(self.nGramCounts)
 
     def trainingDataHasNGram(self, sentence):
         """s

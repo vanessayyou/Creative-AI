@@ -39,16 +39,11 @@ class TrigramModel(NGramModel):
         self.nGramCounts = defaultdict(dict)
         listofwords = self.prepData(text)
         flattenList =[item for sublist in listofwords for item in sublist]
-        print flattenList
-        stringofwords = ' '.join(str(flattenList))
-        counts = Counter(trigramiteration(words = stringofwords.split()))
-        #counts = Counter(trigramiteration(words = flattenList))
-        
+        counts = Counter(trigramiteration(words = flattenList))
         for unigram, bigram, trigram in counts:
             self.nGramCounts[unigram][bigram] = {}
             self.nGramCounts[unigram][bigram][trigram] = counts[(unigram, bigram, trigram)]
         self.nGramCounts = dict(self.nGramCounts)
-        #print self.nGramCounts
     
 
     def trainingDataHasNGram(self, sentence):
