@@ -1,5 +1,6 @@
 import random
 from nGramModel import *
+from collections import defaultdict, Counter
 
 class TrigramModel(NGramModel):
 
@@ -29,7 +30,24 @@ class TrigramModel(NGramModel):
                   symbols to be included as their own tokens in
                   self.nGramCounts. For more details, see the spec.
         """
-        pass
+        
+        def trigramiteration(words):
+            count = len(words)
+            for i in range(count - 2):
+                yield words[i], words[i+1], words[i+2]
+        
+        self.nGramCounts = defaultdict(dict)
+        listofwords = self.prepData(text)
+        flattenList =[item for sublist in listofwords for item in sublist]
+        stringofwords = ' '.join(flattenList)
+        counts = Counter(trigramiteration(words = stringofwords.split()))
+        
+        for unigram, bigram, trigram in counts:
+            self.nGramCounts[unigram][bigram] = {}
+            self.nGramCounts[unigram][bigram][trigram] = counts[(unigram, bigram, trigram)]
+        self.nGramCounts = dict(self.nGramCounts)
+        print self.nGramCounts
+    
 
     def trainingDataHasNGram(self, sentence):
         """
@@ -39,7 +57,22 @@ class TrigramModel(NGramModel):
                   the next token for the sentence. For explanations of how this
                   is determined for the TrigramModel, see the spec.
         """
-        pass
+        
+        keysUni = self.nGramCounts.keys()
+        for unigram in keysUni:
+            keysBi = self.nGramCounts[unigram].keys()
+            for bigram in keysBi:
+                if (sentence[1] in self.nGramCounts[unigram][bigram] and sentence[2] in self.nGramCounts[unigram][bigram]):
+                    return True
+        return False
+        
+        """
+        for unigram, bigram in self.nGramCounts.iteritems():
+            if (sentence[1] in self.nGramCounts[unigram][bigram] and sentence[2] in self.nGramCounts[unigram][bigram]):
+                return True
+        return False
+        """
+    
 
     def getCandidateDictionary(self, sentence):
         """
@@ -50,7 +83,7 @@ class TrigramModel(NGramModel):
                   to the current sentence. For details on which words the
                   TrigramModel sees as candidates, see the spec.
         """
-        pass
+        return self.nGramCounts[sentence[-2]][sentence[-1]]
 
 
 ###############################################################################
@@ -62,6 +95,7 @@ if __name__ == '__main__':
     text = [ ['the', 'quick', 'brown', 'fox'], ['the', 'lazy', 'dog'] ]
     sentence = [ 'the', 'quick', 'brown' ]
     trigramModel = TrigramModel()
-    print(trigramModel)
+    trigramModel.trainModel(text)
+    print trigramModel.trainingDataHasNGram(sentence)
 
 
