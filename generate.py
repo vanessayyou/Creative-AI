@@ -42,7 +42,7 @@ def printSongLyrics(verseOne, verseTwo, chorus):
     print
     for verse in verses:
         for line in verse:
-            print (' '.join(line)).capitalize()
+            print(' '.join(line)).capitalize()
         print
 
 def trainLyricModels(lyricDirs):
@@ -100,7 +100,7 @@ def selectNGramModel(models, sentence):
     for model in models:
         if model.trainingDataHasNGram(sentence):
             return model
-    return models[2];
+    return models[2]
 
 def generateLyricalSentence(models, desiredLength):
     """
@@ -116,7 +116,7 @@ def generateLyricalSentence(models, desiredLength):
               NGramModels, see the spec.
     """
     sentence = ['^::^', '^:::^']
-    currentWord = selectNGramModel(models, sentence);
+    currentWord = selectNGramModel(models, sentence)
     while not sentenceTooLong(desiredLength, len(sentence)-2) and currentWord.getNextToken(sentence) is not '$:::$':
         sentence.insert(len(sentence)-1, currentWord.getNextToken(sentence))
         currentWord = selectNGramModel(models, sentence)
@@ -132,7 +132,7 @@ def generateMusicalSentence(models, desiredLength, possiblePitches):
               should be exactly the same as the core.
     """
     sentence = ['^::^', '^:::^']
-    currentNote = selectNGramModel(models, sentence);
+    currentNote = selectNGramModel(models, sentence)
     while not sentenceTooLong(desiredLength, len(sentence) - 2) and currentNote.getNextNote(sentence, possiblePitches) is not '$:::$':
         sentence.insert(len(sentence) - 1, currentNote.getNextNote(sentence, possiblePitches))
         currentNote = selectNGramModel(models, sentence)
