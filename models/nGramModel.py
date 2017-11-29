@@ -92,7 +92,7 @@ class NGramModel(object):
         Effects:  returns a candidate item (a key in the candidates dictionary)
                   based on the algorithm described in the spec.
         """
-
+        
         token = list(candidates.keys())
         count = list(candidates.values())
 
@@ -104,7 +104,6 @@ class NGramModel(object):
 
         for j in range(0, len(token)):
           if (cumulative[j] > randomnumber):
-              #print cumulative
               return token[j]
         
         

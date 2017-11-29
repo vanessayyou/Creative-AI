@@ -87,5 +87,6 @@ if __name__ == '__main__':
     trigramModel = TrigramModel()
     trigramModel.trainModel(text)
     print trigramModel.trainingDataHasNGram(sentence)
+    print trigramModel.getCandidateDictionary(sentence)
 
 
