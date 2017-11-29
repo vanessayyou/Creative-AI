@@ -140,7 +140,7 @@ class NGramModel(object):
             note = key[0]
             note_part = ''.join([i for i in note if not i.isdigit()])
             if note_part in possiblePitches:
-              constrainedCandidates[key] == allCandidates[key]
+              constrainedCandidates[key] = allCandidates[key]
         if not constrainedCandidates:
           pysynth_tuple = (random.choice(possiblePitches) + '4', random.choice(NOTE_DURATIONS))
           return pysynth_tuple
@@ -158,4 +158,4 @@ if __name__ == '__main__':
     choicestwo = { 'north': 4, 'south': 1, 'east': 3, 'west': 2 }
     nGramModel = NGramModel()
     print(nGramModel)
-    print(nGramModel.weightedChoice(choicestwo))\
+    print(nGramModel.weightedChoice(choicestwo))
