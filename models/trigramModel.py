@@ -35,13 +35,18 @@ class TrigramModel(NGramModel):
             count = len(words)
             for i in range(count - 2):
                 yield words[i], words[i+1], words[i+2]
+
+        class Vividict(dict):
+          def __missing__(self, key):
+            value = self[key] = type(self)()
+            return value
         
-        self.nGramCounts = defaultdict(dict)
+        #self.nGramCounts = defaultdict(dict)
+        self.nGramCounts = Vividict()
         listofwords = self.prepData(text)
         flattenList =[item for sublist in listofwords for item in sublist]
         counts = Counter(trigramiteration(words = flattenList))
         for unigram, bigram, trigram in counts:
-            self.nGramCounts[unigram][bigram] = {}
             self.nGramCounts[unigram][bigram][trigram] = counts[(unigram, bigram, trigram)]
         self.nGramCounts = dict(self.nGramCounts)
     
@@ -73,6 +78,7 @@ class TrigramModel(NGramModel):
                   to the current sentence. For details on which words the
                   TrigramModel sees as candidates, see the spec.
         """
+        print "tri candidate"
         return self.nGramCounts[sentence[-2]][sentence[-1]]
 
 
@@ -82,8 +88,9 @@ class TrigramModel(NGramModel):
 
 if __name__ == '__main__':
     # Add your tests here
-    text = [ ['the', 'quick', 'brown', 'fox'], ['the', 'lazy', 'dog'] ]
-    sentence = [ 'the', 'quick', 'brown' ]
+    text = [ ['the', 'quick', 'brown', 'fox'], ['the', 'lazy', 'dog'], ['hi'] ]
+    #sentence = [ '^::^', '^:::^', 'the', 'quick', 'brown' ]
+    sentence = [ '^::^', '^:::^']
     trigramModel = TrigramModel()
     trigramModel.trainModel(text)
     print trigramModel.trainingDataHasNGram(sentence)

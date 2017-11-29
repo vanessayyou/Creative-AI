@@ -95,12 +95,14 @@ def selectNGramModel(models, sentence):
     Effects:  returns the best possible model that can be used for the
               current sentence based on the n-grams that the models know.
               (Remember that you wrote a function that checks if a model can
-              be used to pick a word for a sentence!)
+              be us3ed to pick a word for a sentence!)
     """
     for model in models:
         if model.trainingDataHasNGram(sentence):
+            #FIXME
+            #print model
             return model
-    return models[2]
+    return models[len(models)-1]
 
 def generateLyricalSentence(models, desiredLength):
     """
@@ -117,10 +119,12 @@ def generateLyricalSentence(models, desiredLength):
     """
     sentence = ['^::^', '^:::^']
     currentWord = selectNGramModel(models, sentence)
-    while (not sentenceTooLong(desiredLength, len(sentence)-2)) and (currentWord.getNextToken(sentence) is not '$:::$'):
-        sentence.insert(len(sentence) - 1, currentWord.getNextToken(sentence))
+    while (not sentenceTooLong(desiredLength, len(sentence)-2)) and (currentWord.getNextToken(sentence) != '$:::$'):
+        sentence.insert(len(sentence), currentWord.getNextToken(sentence))
         currentWord = selectNGramModel(models, sentence)
-    return sentence[2:len(sentence)-1]
+    #FIXME
+    return sentence
+    #return sentence[2:len(sentence)-1]
 
 def generateMusicalSentence(models, desiredLength, possiblePitches):
     """

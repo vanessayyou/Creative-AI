@@ -92,7 +92,7 @@ class NGramModel(object):
         Effects:  returns a candidate item (a key in the candidates dictionary)
                   based on the algorithm described in the spec.
         """
-        
+
         token = list(candidates.keys())
         count = list(candidates.values())
 
@@ -104,7 +104,7 @@ class NGramModel(object):
 
         for j in range(0, len(token)):
           if (cumulative[j] > randomnumber):
-              return token[j]
+            return token[j]
         
         
     def getNextToken(self, sentence):
@@ -117,6 +117,7 @@ class NGramModel(object):
                   For more information on how to put all these functions
                   together, see the spec.
         """
+        #print self.getCandidateDictionary(sentence)
         return self.weightedChoice(self.getCandidateDictionary(sentence))
 
 
