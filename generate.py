@@ -119,9 +119,12 @@ def generateLyricalSentence(models, desiredLength):
     """
     sentence = ['^::^', '^:::^']
     currentWord = selectNGramModel(models, sentence)
-    while (not sentenceTooLong(desiredLength, len(sentence)-2)) and (currentWord.getNextToken(sentence) != '$:::$'):
-        sentence.insert(len(sentence), currentWord.getNextToken(sentence))
+    token = currentWord.getNextToken(sentence)
+    while (not sentenceTooLong(desiredLength, len(sentence)-2)) and ( token != '$:::$'):
+        #sentence.insert(len(sentence), currentWord.getNextToken(sentence))
+        sentence.insert(len(sentence), token)
         currentWord = selectNGramModel(models, sentence)
+        token = currentWord.getNextToken(sentence)
     #FIXME
     return sentence
     #return sentence[2:len(sentence)-1]
@@ -137,7 +140,7 @@ def generateMusicalSentence(models, desiredLength, possiblePitches):
     """
     sentence = ['^::^', '^:::^']
     currentNote = selectNGramModel(models, sentence)
-    while (not sentenceTooLong(desiredLength, len(sentence) - 2)) and (currentNote.getNextNote(sentence, possiblePitches) != '$:::$'):
+    while ((not sentenceTooLong(desiredLength, len(sentence) - 2)) and (currentNote.getNextNote(sentence, possiblePitches) != '$:::$')):
         sentence.insert(len(sentence) - 1, currentNote.getNextNote(sentence, possiblePitches))
         currentNote = selectNGramModel(models, sentence)
     return sentence[2:len(sentence) - 1]
@@ -149,9 +152,9 @@ def runLyricsGenerator(models):
     Effects:  generates a verse one, a verse two, and a chorus, then
               calls printSongLyrics to print the song out.
     """
-    verseOne = [generateLyricalSentence(models, 5), generateLyricalSentence(models, 8), generateLyricalSentence(models, 10), generateLyricalSentence(models, 5)]
-    verseTwo = [generateLyricalSentence(models, 7), generateLyricalSentence(models, 7), generateLyricalSentence(models, 7), generateLyricalSentence(models, 6)]
-    chorus = [generateLyricalSentence(models, 6), generateLyricalSentence(models, 7), generateLyricalSentence(models, 8), generateLyricalSentence(models, 5)]
+    verseOne = [generateLyricalSentence(models, 10), generateLyricalSentence(models, 8), generateLyricalSentence(models, 10), generateLyricalSentence(models, 9)]
+    verseTwo = [generateLyricalSentence(models, 7), generateLyricalSentence(models, 7), generateLyricalSentence(models, 7), generateLyricalSentence(models, 10)]
+    chorus = [generateLyricalSentence(models, 9), generateLyricalSentence(models, 15), generateLyricalSentence(models, 13), generateLyricalSentence(models, 9)]
     printSongLyrics(verseOne, verseTwo, chorus)
 
 def runMusicGenerator(models, songName):
