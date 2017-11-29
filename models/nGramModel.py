@@ -92,18 +92,20 @@ class NGramModel(object):
         Effects:  returns a candidate item (a key in the candidates dictionary)
                   based on the algorithm described in the spec.
         """
+
         token = list(candidates.keys())
         count = list(candidates.values())
 
         cumulative = []
         cumulative.append(count[0])
         for i in range(1, len(count)):
-            cumulative.append(cumulative[i-1] + count[i])
-        
-        randomnumber = random.randrange(0,10)
+          cumulative.append(cumulative[i-1] + count[i])
+        randomnumber = random.randrange(0,max(cumulative))
+
         for j in range(0, len(token)):
-            if (count[j] > randomnumber):
-                return token[j]
+          if (cumulative[j] > randomnumber):
+              #print cumulative
+              return token[j]
         
         
     def getNextToken(self, sentence):

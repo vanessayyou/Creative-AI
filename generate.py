@@ -11,7 +11,7 @@ from models.bigramModel import *
 from models.trigramModel import *
 
 # FIXME Add your team name
-TEAM = 'Creative A.I. but not a creative name'
+TEAM = 'Creative A.I. but not creative title'
 LYRICSDIRS = ['the_beatles']
 MUSICDIRS = ['gamecube']
 WAVDIR = 'wav/'
@@ -120,7 +120,7 @@ def generateLyricalSentence(models, desiredLength):
     while not sentenceTooLong(desiredLength, len(sentence)-2) and currentWord.getNextToken(sentence) is not '$:::$':
         sentence.insert(len(sentence)-1, currentWord.getNextToken(sentence))
         currentWord = selectNGramModel(models, sentence)
-    return sentence[1:len(sentence)-1]
+    return sentence[2:len(sentence)-1]
 
 def generateMusicalSentence(models, desiredLength, possiblePitches):
     """
@@ -136,7 +136,7 @@ def generateMusicalSentence(models, desiredLength, possiblePitches):
     while not sentenceTooLong(desiredLength, len(sentence) - 2) and currentNote.getNextNote(sentence, possiblePitches) is not '$:::$':
         sentence.insert(len(sentence) - 1, currentNote.getNextNote(sentence, possiblePitches))
         currentNote = selectNGramModel(models, sentence)
-    return sentence[1:len(sentence) - 1]
+    return sentence[2:len(sentence) - 1]
 
 def runLyricsGenerator(models):
     """
@@ -145,11 +145,10 @@ def runLyricsGenerator(models):
     Effects:  generates a verse one, a verse two, and a chorus, then
               calls printSongLyrics to print the song out.
     """
-    verseOne = generateLyricalSentence(models, 5)
-    verseTwo = generateLyricalSentence(models, 7)
-    chorus = generateLyricalSentence(models, 5)
+    verseOne = generateLyricalSentence(models, 10)
+    verseTwo = generateLyricalSentence(models, 8)
+    chorus = generateLyricalSentence(models, 10)
     printSongLyrics(verseOne, verseTwo, chorus)
-    pass
 
 def runMusicGenerator(models, songName):
     """
@@ -177,6 +176,7 @@ PROMPT = """
 (3) Quit the music generator
 > """
 
+
 def main():
     """
     Requires: Nothing
@@ -198,12 +198,12 @@ def main():
             if userInput == 1:
                 #FIXME uncomment this line when ready
                 runLyricsGenerator(lyricsModels)
-                print("Under construction")
+                #print("Under construction")
             elif userInput == 2:
                 # FIXME uncomment these lines when ready
                 songName = raw_input('What would you like to name your song? ')
                 runMusicGenerator(musicModels, WAVDIR + songName + '.wav')
-                print("Under construction")
+               # print("Under construction")
             elif userInput == 3:
                 print('Thank you for using the ' + TEAM + ' music generator!')
                 sys.exit()
@@ -213,7 +213,13 @@ def main():
             print("Please enter a number")
 
 if __name__ == '__main__':
+    #FIXME!!!!!
     main()
     # note that if you want to individually test functions from this file,
     # you can comment out main() and call those functions here. Just make
+    lyricsModels = trainLyricModels(LYRICSDIRS)
+    musicModels = trainMusicModels(MUSICDIRS)
+
+    print lyricsModels
 # sure to call main() in your final submission of the project!
+
