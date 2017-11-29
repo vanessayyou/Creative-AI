@@ -137,7 +137,7 @@ def generateMusicalSentence(models, desiredLength, possiblePitches):
     """
     sentence = ['^::^', '^:::^']
     currentNote = selectNGramModel(models, sentence)
-    while (not sentenceTooLong(desiredLength, len(sentence) - 2)) and (currentNote.getNextNote(sentence, possiblePitches) is not '$:::$'):
+    while (not sentenceTooLong(desiredLength, len(sentence) - 2)) and (currentNote.getNextNote(sentence, possiblePitches) != '$:::$'):
         sentence.insert(len(sentence) - 1, currentNote.getNextNote(sentence, possiblePitches))
         currentNote = selectNGramModel(models, sentence)
     return sentence[2:len(sentence) - 1]
@@ -150,8 +150,8 @@ def runLyricsGenerator(models):
               calls printSongLyrics to print the song out.
     """
     verseOne = [generateLyricalSentence(models, 5), generateLyricalSentence(models, 8), generateLyricalSentence(models, 10), generateLyricalSentence(models, 5)]
-    verseTwo = [generateLyricalSentence(models, 7), generateLyricalSentence(models, 3), generateLyricalSentence(models, 7), generateLyricalSentence(models, 6)]
-    chorus = [generateLyricalSentence(models, 6), generateLyricalSentence(models, 3), generateLyricalSentence(models, 2), generateLyricalSentence(models, 5)]
+    verseTwo = [generateLyricalSentence(models, 7), generateLyricalSentence(models, 7), generateLyricalSentence(models, 7), generateLyricalSentence(models, 6)]
+    chorus = [generateLyricalSentence(models, 6), generateLyricalSentence(models, 7), generateLyricalSentence(models, 8), generateLyricalSentence(models, 5)]
     printSongLyrics(verseOne, verseTwo, chorus)
 
 def runMusicGenerator(models, songName):
