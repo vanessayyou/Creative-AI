@@ -99,8 +99,6 @@ def selectNGramModel(models, sentence):
     """
     for model in models:
         if model.trainingDataHasNGram(sentence):
-            #FIXME
-            #print model
             return model
     return models[len(models)-1]
 

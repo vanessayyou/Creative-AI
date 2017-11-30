@@ -62,6 +62,9 @@ class TrigramModel(NGramModel):
 
         if sentence[len(sentence) - 2] in self.nGramCounts.keys():
           if sentence[len(sentence)-1] in self.nGramCounts[sentence[len(sentence)-2]].keys():
+            #FIXME
+            #print sentence[len(sentence) - 2], sentence[len(sentence) - 1]
+            #print self.nGramCounts[sentence[len(sentence) - 2]][sentence[len(sentence) - 1]]
             return True
           else:
             return False
@@ -80,7 +83,6 @@ class TrigramModel(NGramModel):
         """
         print "tri candidate"
         return self.nGramCounts[sentence[-2]][sentence[-1]]
-
 
 ###############################################################################
 # Main
