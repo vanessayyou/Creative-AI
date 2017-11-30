@@ -99,8 +99,6 @@ def selectNGramModel(models, sentence):
     """
     for model in models:
         if model.trainingDataHasNGram(sentence):
-            #FIXME
-            #print model
             return model
     return models[len(models)-1]
 
@@ -118,7 +116,9 @@ def generateLyricalSentence(models, desiredLength):
               NGramModels, see the spec.
     """
     sentence = ['^::^', '^:::^']
+    #selects word based off model and current sentence
     currentWord = selectNGramModel(models, sentence)
+    #gets the next word to be appended to the list
     token = currentWord.getNextToken(sentence)
     while (not sentenceTooLong(desiredLength, len(sentence)-2)) and ( token != '$:::$'):
         sentence.insert(len(sentence), token)
@@ -152,9 +152,18 @@ def runLyricsGenerator(models):
     Effects:  generates a verse one, a verse two, and a chorus, then
               calls printSongLyrics to print the song out.
     """
-    verseOne = [generateLyricalSentence(models, 10), generateLyricalSentence(models, 8), generateLyricalSentence(models, 10), generateLyricalSentence(models, 9)]
-    verseTwo = [generateLyricalSentence(models, 7), generateLyricalSentence(models, 7), generateLyricalSentence(models, 7), generateLyricalSentence(models, 10)]
-    chorus = [generateLyricalSentence(models, 9), generateLyricalSentence(models, 15), generateLyricalSentence(models, 13), generateLyricalSentence(models, 9)]
+    verseOne = [generateLyricalSentence(models, 10),
+                generateLyricalSentence(models, 8),
+                generateLyricalSentence(models, 10),
+                generateLyricalSentence(models, 9)]
+    verseTwo = [generateLyricalSentence(models, 7),
+                generateLyricalSentence(models, 7),
+                generateLyricalSentence(models, 7),
+                generateLyricalSentence(models, 10)]
+    chorus = [generateLyricalSentence(models, 9),
+              generateLyricalSentence(models, 15),
+              generateLyricalSentence(models, 13),
+              generateLyricalSentence(models, 9)]
     printSongLyrics(verseOne, verseTwo, chorus)
 
 def runMusicGenerator(models, songName):
@@ -185,7 +194,6 @@ def main():
               entire generator program for both the reach and the core.
               It prompts the user to choose to generate either lyrics or music.
     """
-    # FIXME uncomment these lines when ready
     print('Starting program and loading data...')
     lyricsModels = trainLyricModels(LYRICSDIRS)
     musicModels = trainMusicModels(MUSICDIRS)
@@ -196,14 +204,10 @@ def main():
         try:
             userInput = int(raw_input(PROMPT))
             if userInput == 1:
-                #FIXME uncomment this line when ready
                 runLyricsGenerator(lyricsModels)
-                #print("Under construction")
             elif userInput == 2:
-                # FIXME uncomment these lines when ready
                 songName = raw_input('What would you like to name your song? ')
                 runMusicGenerator(musicModels, WAVDIR + songName + '.wav')
-               # print("Under construction")
             elif userInput == 3:
                 print('Thank you for using the ' + TEAM + ' music generator!')
                 sys.exit()
@@ -214,7 +218,6 @@ def main():
 
 
 if __name__ == '__main__':
-    #FIXME!!!!!
     main()
     # note that if you want to individually test functions from this file,
     # you can comment out main() and call those functions here. Just make
