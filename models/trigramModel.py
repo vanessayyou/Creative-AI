@@ -30,21 +30,23 @@ class TrigramModel(NGramModel):
                   symbols to be included as their own tokens in
                   self.nGramCounts. For more details, see the spec.
         """
-        
+        #generator that makes possible trigrams
         def trigramiteration(words):
             count = len(words)
             for i in range(count - 2):
                 yield words[i], words[i+1], words[i+2]
-
+    
         class Vividict(dict):
           def __missing__(self, key):
             value = self[key] = type(self)()
             return value
         
-        #self.nGramCounts = defaultdict(dict)
+        #preps text
         self.nGramCounts = Vividict()
         listofwords = self.prepData(text)
         flattenList =[item for sublist in listofwords for item in sublist]
+        
+        #counts all generated trigrams
         counts = Counter(trigramiteration(words = flattenList))
         for unigram, bigram, trigram in counts:
             self.nGramCounts[unigram][bigram][trigram] = counts[(unigram, bigram, trigram)]
@@ -81,7 +83,6 @@ class TrigramModel(NGramModel):
                   to the current sentence. For details on which words the
                   TrigramModel sees as candidates, see the spec.
         """
-        print "tri candidate"
         return self.nGramCounts[sentence[-2]][sentence[-1]]
 
 ###############################################################################

@@ -31,16 +31,19 @@ class BigramModel(NGramModel):
                   symbols to be included as their own tokens in
                   self.nGramCounts. For more details, see the spec.
         """
-
+        #generator that makes word combitions
         def bigramiteration(words):
             count = len(words)
             for i in range(count - 1):
                 yield words[i], words[i + 1]
-
+    
+        #Preps text makes it so we can use the Counter() function on it
         self.nGramCounts = defaultdict(dict)
         listofwords = self.prepData(text)
         flattenList = [item for sublist in listofwords for item in sublist ]
+        #Counts all the combitions generated
         counts = Counter(bigramiteration(words = flattenList))
+        #indexes all new data into the self.nGramCounts dictionary
         for unigram1, unigram2 in counts:
             self.nGramCounts[unigram1][unigram2] = counts[(unigram1, unigram2)]
         self.nGramCounts = dict(self.nGramCounts)
@@ -67,7 +70,6 @@ class BigramModel(NGramModel):
                   to the current sentence. For details on which words the
                   BigramModel sees as candidates, see the spec.
         """
-        print 'bi candidate'
         return self.nGramCounts[sentence[-1]]
 
 ###############################################################################

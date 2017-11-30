@@ -95,13 +95,15 @@ class NGramModel(object):
 
         token = list(candidates.keys())
         count = list(candidates.values())
-
+        #goes through the dictionary and adds the weights
         cumulative = []
         cumulative.append(count[0])
         for i in range(1, len(count)):
           cumulative.append(cumulative[i-1] + count[i])
+        #random number generated between 0 and the sum of the weights
         randomnumber = random.randrange(0,max(cumulative))
-
+        
+        #returns the first value greater than the randomnumber we generated
         for j in range(0, len(token)):
           if (cumulative[j] > randomnumber):
             return token[j]
@@ -143,6 +145,7 @@ class NGramModel(object):
             note_part = ''.join([i for i in note if not i.isdigit()])
             if note_part in possiblePitches:
               constrainedCandidates[key] = allCandidates[key]
+    
         if not constrainedCandidates:
           pysynth_tuple = (random.choice(possiblePitches) + '4', random.choice(NOTE_DURATIONS))
           return pysynth_tuple
