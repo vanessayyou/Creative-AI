@@ -173,7 +173,7 @@ def runMusicGenerator(models, songName):
     Effects:  runs the music generator as following the details in the spec.
     """
     key = random.choice(KEY_SIGNATURES.keys())
-    tuplesList = generateMusicalSentence(models, 10, KEY_SIGNATURES[key])
+    tuplesList = generateMusicalSentence(models, 90, KEY_SIGNATURES[key])
     pysynth.make_wav(tuplesList, fn=songName)
     
 ###############################################################################
