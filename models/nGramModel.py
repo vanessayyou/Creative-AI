@@ -137,7 +137,7 @@ class NGramModel(object):
         constrainedCandidates = {}
         for key in allCandidates.keys():
           if key == '$:::$':
-            constrainedCandidates[key] == allCandidates[key]
+            constrainedCandidates[key] = allCandidates[key]
           else:
             note = key[0]
             note_part = ''.join([i for i in note if not i.isdigit()])

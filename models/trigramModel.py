@@ -60,8 +60,8 @@ class TrigramModel(NGramModel):
                   is determined for the TrigramModel, see the spec.
         """
 
-        if sentence[-2] in self.nGramCounts.keys():
-          if sentence[-1] in self.nGramCounts[sentence[-2]].keys():
+        if sentence[len(sentence) - 2] in self.nGramCounts.keys():
+          if sentence[len(sentence)-1] in self.nGramCounts[sentence[len(sentence)-2]].keys():
             return True
           else:
             return False
