@@ -144,8 +144,6 @@ class NGramModel(object):
             if note_part in possiblePitches:
               constrainedCandidates[key] = allCandidates[key]
         if not constrainedCandidates:
-          #FIXME
-          print possiblePitches
           pysynth_tuple = (random.choice(possiblePitches) + '4', random.choice(NOTE_DURATIONS))
           return pysynth_tuple
         else:

@@ -124,13 +124,8 @@ def generateLyricalSentence(models, desiredLength):
         sentence.insert(len(sentence), token)
         currentWord = selectNGramModel(models, sentence)
         token = currentWord.getNextToken(sentence)
-<<<<<<< HEAD
     return sentence[2:len(sentence)]
-=======
-    #FIXME
-    return sentence
-# return sentence[2:len(sentence)-1]
->>>>>>> 774a9f1fc517cfacea7d021db4b36c3d009fa619
+
 
 def generateMusicalSentence(models, desiredLength, possiblePitches):
     """
@@ -141,31 +136,14 @@ def generateMusicalSentence(models, desiredLength, possiblePitches):
               function instead of getNextToken(). Everything else
               should be exactly the same as the core.
     """
-    """
     sentence = ['^::^', '^:::^']
     currentNote = selectNGramModel(models, sentence)
     note = currentNote.getNextNote(sentence, possiblePitches)
-    while (not sentenceTooLong(desiredLength, len(sentence) - 2)) and (note != '$:::$'):
+    while (not sentenceTooLong(desiredLength, len(sentence)-2)) and ( note != '$:::$'):
         sentence.insert(len(sentence), note)
-        currentNote = selectNGramModel(models, sentence)
-<<<<<<< HEAD
+        currentWord = selectNGramModel(models, sentence)
         note = currentNote.getNextNote(sentence, possiblePitches)
     return sentence[2:len(sentence)]
-=======
-    return sentence[2:len(sentence) - 1]
-    """
-    sentence = ['^::^', '^:::^']
-    currentWord = selectNGramModel(models, sentence)
-    token = currentWord.getNextToken(sentence)
-    while (not sentenceTooLong(desiredLength, len(sentence)-2)) and ( token != '$:::$'):
-        #sentence.insert(len(sentence), currentWord.getNextToken(sentence))
-        sentence.insert(len(sentence), token)
-        currentWord = selectNGramModel(models, sentence)
-        token = currentWord.getNextNote(sentence, possiblePitches)
-    #FIXME
-#return sentence
-    return sentence[2:len(sentence) - 1]
->>>>>>> 774a9f1fc517cfacea7d021db4b36c3d009fa619
 
 def runLyricsGenerator(models):
     """
@@ -186,13 +164,7 @@ def runMusicGenerator(models, songName):
     Effects:  runs the music generator as following the details in the spec.
     """
     key = random.choice(KEY_SIGNATURES.keys())
-    part1 = generateMusicalSentence(models, 10, KEY_SIGNATURES[key])
-    part2 = generateMusicalSentence(models, 15, KEY_SIGNATURES[key])
-    part3 = generateMusicalSentence(models, 25, KEY_SIGNATURES[key])
-    part4 = generateMusicalSentence(models, 25, KEY_SIGNATURES[key])
-    part5 = generateMusicalSentence(models, 15, KEY_SIGNATURES[key])
-    part6 = generateMusicalSentence(models, 10, KEY_SIGNATURES[key])
-    tuplesList = [tuple(part1), tuple(part2), tuple(part3), tuple(part4), tuple(part5), tuple(part6)]
+    tuplesList = generateMusicalSentence(models, 10, KEY_SIGNATURES[key])
     pysynth.make_wav(tuplesList, fn=songName)
     
 ###############################################################################
@@ -204,7 +176,6 @@ PROMPT = """
 (2) Generate a song using data from Nintendo Gamecube
 (3) Quit the music generator
 > """
-
 
 def main():
     """
@@ -241,14 +212,15 @@ def main():
         except ValueError:
             print("Please enter a number")
 
+
 if __name__ == '__main__':
     #FIXME!!!!!
     main()
     # note that if you want to individually test functions from this file,
     # you can comment out main() and call those functions here. Just make
-    lyricsModels = trainLyricModels(LYRICSDIRS)
-    musicModels = trainMusicModels(MUSICDIRS)
+    #lyricsModels = trainLyricModels(LYRICSDIRS)
+   #musicModels = trainMusicModels(MUSICDIRS)
 
-    print lyricsModels
+    #runMusicGenerator(musicModels, WAVDIR + '1' + '.wav')
 # sure to call main() in your final submission of the project!
 
