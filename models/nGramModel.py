@@ -137,13 +137,15 @@ class NGramModel(object):
         constrainedCandidates = {}
         for key in allCandidates.keys():
           if key == '$:::$':
-            constrainedCandidates[key] == allCandidates[key]
+            constrainedCandidates[key] = allCandidates[key]
           else:
             note = key[0]
             note_part = ''.join([i for i in note if not i.isdigit()])
             if note_part in possiblePitches:
               constrainedCandidates[key] = allCandidates[key]
         if not constrainedCandidates:
+          #FIXME
+          print possiblePitches
           pysynth_tuple = (random.choice(possiblePitches) + '4', random.choice(NOTE_DURATIONS))
           return pysynth_tuple
         else:
