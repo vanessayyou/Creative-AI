@@ -10,6 +10,9 @@ from models.unigramModel import *
 from models.bigramModel import *
 from models.trigramModel import *
 
+#REACH
+from pydub import AudioSegment
+
 # FIXME Add your team name
 TEAM = 'Creative A.I. but not creative title'
 LYRICSDIRS = ['the_beatles']
@@ -145,6 +148,7 @@ def generateMusicalSentence(models, desiredLength, possiblePitches):
         note = currentNote.getNextNote(sentence, possiblePitches)
     return sentence[2:len(sentence)]
 
+
 def runLyricsGenerator(models):
     """
     Requires: models is a list of a trained nGramModel child class objects
@@ -164,7 +168,9 @@ def runLyricsGenerator(models):
               generateLyricalSentence(models, 15),
               generateLyricalSentence(models, 13),
               generateLyricalSentence(models, 9)]
+    verses = [verseOne, chorus, verseTwo, chorus]
     printSongLyrics(verseOne, verseTwo, chorus)
+    return(verses)
 
 def runMusicGenerator(models, songName):
     """
@@ -173,9 +179,93 @@ def runMusicGenerator(models, songName):
     Effects:  runs the music generator as following the details in the spec.
     """
     key = random.choice(KEY_SIGNATURES.keys())
-    tuplesList = generateMusicalSentence(models, 90, KEY_SIGNATURES[key])
+    #tuplesList = generateMusicalSentence(models, 90, KEY_SIGNATURES[key])
+    tuplesList = generateMusicalSentence(models, 60, KEY_SIGNATURES[key])
+
     pysynth.make_wav(tuplesList, fn=songName)
-    
+
+    #reach
+    background_tuples_list = generateMusicalSentence(models, 4, 'c major')
+    length_background_tuples_list = len(background_tuples_list)
+    #FIXME
+    print background_tuples_list
+
+    background1 = []
+    for x in range(0, 60):
+
+        if length_background_tuples_list == 1:
+            background1.append(background_tuples_list[0])
+        elif length_background_tuples_list == 2:
+            if (x + 1) % 4 == 1:
+                background1.append(background_tuples_list[0])
+            elif (x + 1) % 4 == 2:
+                background1.append(background_tuples_list[1])
+        elif length_background_tuples_list == 3:
+            if (x + 1) % 4 == 1:
+                background1.append(background_tuples_list[0])
+            elif (x + 1) % 4 == 2:
+                background1.append(background_tuples_list[1])
+            elif (x + 1) % 4 == 3:
+                background1.append(background_tuples_list[2])
+        else:
+            if (x + 1) % 4 == 1:
+                background1.append(background_tuples_list[0])
+            elif (x + 1) % 4 == 2:
+                background1.append(background_tuples_list[1])
+            elif (x + 1) % 4 == 3:
+                background1.append(background_tuples_list[2])
+            else:
+                background1.append(background_tuples_list[3])
+
+    pysynth.make_wav(background1, fn=WAVDIR + 'background1.wav')
+
+
+    background_tuples_list = generateMusicalSentence(models, 4, 'e major')
+    length_background_tuples_list = len(background_tuples_list)
+    #FIXME
+    print background_tuples_list
+
+    background2 = []
+    for x in range(0, 60):
+        if length_background_tuples_list == 1:
+            background2.append(background_tuples_list[0])
+        elif length_background_tuples_list == 2:
+            if (x + 1) % 4 == 1:
+                background2.append(background_tuples_list[0])
+            elif (x + 1) % 4 == 2:
+                background2.append(background_tuples_list[1])
+        elif length_background_tuples_list == 3:
+            if (x + 1) % 4 == 1:
+                background2.append(background_tuples_list[0])
+            elif (x + 1) % 4 == 2:
+                background2.append(background_tuples_list[1])
+            elif (x + 1) % 4 == 3:
+                background2.append(background_tuples_list[2])
+        else:
+            if (x + 1) % 4 == 1:
+                background2.append(background_tuples_list[0])
+            elif (x + 1) % 4 == 2:
+                background2.append(background_tuples_list[1])
+            elif (x + 1) % 4 == 3:
+                background2.append(background_tuples_list[2])
+            else:
+                background2.append(background_tuples_list[3])
+
+    pysynth.make_wav(background2, fn=WAVDIR + 'background2.wav')
+
+    sound1 = AudioSegment.from_file(WAVDIR + "background1.wav")
+    sound2 = AudioSegment.from_file(WAVDIR + "background2.wav")
+    sound3 = AudioSegment.from_file(WAVDIR + "test.wav")
+
+    combined1 = sound1.overlay(sound2)
+
+    combined1.export(WAVDIR + "combined1.wav", format='wav')
+
+    combined2 = combined1.overlay(sound3)
+
+    combined2.export(WAVDIR + "combined2.wav", format='wav')
+
+
 ###############################################################################
 # Reach
 ###############################################################################

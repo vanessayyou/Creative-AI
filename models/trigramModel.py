@@ -83,7 +83,24 @@ class TrigramModel(NGramModel):
                   to the current sentence. For details on which words the
                   TrigramModel sees as candidates, see the spec.
         """
+        #FIXME
+        #print self.nGramCounts 
+        #print 'the end'
+        #print sentence[-2]
+        #print sentence[-1]
+        '''
+        if sentence[-2] in self.nGramCounts.keys():
+          if sentence[-1] in self.nGramCounts[sentence[-2]].keys():
+            return self.nGramCounts[sentence[-2]][sentence[-1]]
+          else:
+            return self.nGramCounts[sentence[-2]][0]
+        else:
+          key1 = random.choice(self.nGramCounts.keys())
+          key2 = random.choice(self.nGramCounts[key1].keys())
+          return self.nGramCounts[key1][key2] '''
+        print sentence
         return self.nGramCounts[sentence[-2]][sentence[-1]]
+
 
 ###############################################################################
 # Main
