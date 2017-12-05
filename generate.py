@@ -149,7 +149,7 @@ def generateMusicalSentence(models, desiredLength, possiblePitches):
     note = currentNote.getNextNote(sentence, possiblePitches)
     while (not sentenceTooLong(desiredLength, len(sentence)-2)) and ( note != '$:::$'):
         sentence.insert(len(sentence), note)
-        currentWord = selectNGramModel(models, sentence)
+        currentNote = selectNGramModel(models, sentence)
         note = currentNote.getNextNote(sentence, possiblePitches)
     return sentence[2:len(sentence)]
 
@@ -193,7 +193,7 @@ def runMusicGenerator(models, songName):
     background_tuples_list = generateMusicalSentence(models, 4, 'c major')
     length_background_tuples_list = len(background_tuples_list)
     #FIXME
-    print background_tuples_list
+    #print background_tuples_list
 
     background1 = []
     for x in range(0, 60):
@@ -228,7 +228,7 @@ def runMusicGenerator(models, songName):
     background_tuples_list = generateMusicalSentence(models, 4, 'e major')
     length_background_tuples_list = len(background_tuples_list)
     #FIXME
-    print background_tuples_list
+    #print background_tuples_list
 
     background2 = []
     for x in range(0, 60):
@@ -256,20 +256,25 @@ def runMusicGenerator(models, songName):
             else:
                 background2.append(background_tuples_list[3])
 
+
+
+
     pysynth.make_wav(background2, fn=WAVDIR + 'background2.wav')
 
     sound1 = AudioSegment.from_file(WAVDIR + "background1.wav")
     sound2 = AudioSegment.from_file(WAVDIR + "background2.wav")
-    sound3 = AudioSegment.from_file(WAVDIR + "test.wav")
+    sound3 = AudioSegment.from_file(songName)
 
     combined1 = sound1.overlay(sound2)
 
     combined1.export(WAVDIR + "combined1.wav", format='wav')
 
     combined2 = combined1.overlay(sound3)
+    os.remove("wav/combined1.wav")
+    os.remove("wav/background2.wav")
+    os.remove("wav/background1.wav")
 
-    combined2.export(WAVDIR + "combined2.wav", format='wav')
-
+    combined2.export(songName, format='wav')
 
 ###############################################################################
 # Reach
