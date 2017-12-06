@@ -190,7 +190,7 @@ def runMusicGenerator(models, songName):
     pysynth.make_wav(tuplesList, fn=songName)
 
     #reach
-    background_tuples_list = generateMusicalSentence(models, 4, 'c major')
+    background_tuples_list = generateMusicalSentence(models, 4, KEY_SIGNATURES['c major'])
     length_background_tuples_list = len(background_tuples_list)
     #FIXME
     #print background_tuples_list
@@ -225,7 +225,7 @@ def runMusicGenerator(models, songName):
     pysynth.make_wav(background1, fn=WAVDIR + 'background1.wav')
 
 
-    background_tuples_list = generateMusicalSentence(models, 4, 'e major')
+    background_tuples_list = generateMusicalSentence(models, 4, KEY_SIGNATURES['e major'])
     length_background_tuples_list = len(background_tuples_list)
     #FIXME
     #print background_tuples_list

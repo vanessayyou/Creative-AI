@@ -106,6 +106,8 @@ class NGramModel(object):
         #returns the first value greater than the randomnumber we generated
         for j in range(0, len(token)):
           if (cumulative[j] > randomnumber):
+            print token[j]
+            print 'token[j]'
             return token[j]
         
         
@@ -140,17 +142,32 @@ class NGramModel(object):
         for key in allCandidates.keys():
           if key == '$:::$':
             constrainedCandidates[key] = allCandidates[key]
+            #print allCandidates[key]
           else:
             note = key[0]
+            #FIXME
+            #print note
+            #print 'note'
             note_part = ''.join([i for i in note if not i.isdigit()])
+            #FXIME
+            #print note_part
+            #print 'note_part'
             if note_part in possiblePitches:
               constrainedCandidates[key] = allCandidates[key]
     
         if not constrainedCandidates:
-          pysynth_tuple = (random.choice(possiblePitches) + '4', random.choice(NOTE_DURATIONS))
-          return pysynth_tuple
+            pysynth_tuple = (random.choice(possiblePitches) + '4', random.choice(NOTE_DURATIONS))
+            #FIXME
+            print pysynth_tuple
+            print 'pysynth_tuple'
+            return pysynth_tuple
         else:
-          return self.weightedChoice(constrainedCandidates)
+            #FIXME
+            weightedChoice = self.weightedChoice(constrainedCandidates)
+            print weightedChoice
+            print 'weightedChoice'
+            return weightedChoice
+            #return self.weightedChoice(constrainedCandidates)
         
 ###############################################################################
 # Main
