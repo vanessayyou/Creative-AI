@@ -185,14 +185,14 @@ def runMusicGenerator(models, songName):
     """
     key = random.choice(KEY_SIGNATURES.keys())
     #tuplesList = generateMusicalSentence(models, 90, KEY_SIGNATURES[key])
-    melody = ['c', 'e', 'a']
+    melody = [KEY_SIGNATURES[key][0], KEY_SIGNATURES[key][2], KEY_SIGNATURES[key][4], KEY_SIGNATURES[key][6]]
     #tuplesList = generateMusicalSentence(models, 60, KEY_SIGNATURES[key])
     tuplesList = generateMusicalSentence(models, 120, melody)
 
     pysynth.make_wav(tuplesList, fn=songName)
 
     #reach
-    loop1 = ['c', 'a', 'e']
+    loop1 = [KEY_SIGNATURES[key][0], KEY_SIGNATURES[key][2], KEY_SIGNATURES[key][4]]
     background_tuples_list = generateMusicalSentence(models, 4, loop1)
     length_background_tuples_list = len(background_tuples_list)
 

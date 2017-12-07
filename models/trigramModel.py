@@ -31,20 +31,20 @@ class TrigramModel(NGramModel):
                   self.nGramCounts. For more details, see the spec.
         """
         #generator that makes possible trigrams
-        '''
+        
         def trigramiteration(words):
             count = len(words)
             for i in range(count - 2):
                 #print words[i], words[i+1], words[i+2]
-                if not ((words[i] == '$::$' and words[i+1] == '^::^') or (words[i+1] == '$::$' and words[i+2] == '^::^')):
+                if words[i] != '$:::$':
                 	yield words[i], words[i+1], words[i+2]
+        
         '''
-
         def trigramiteration(words):
             count = len(words)
             for i in range(count - 2):
                 yield words[i], words[i+1], words[i+2]
-    
+        '''
         class Vividict(dict):
           def __missing__(self, key):
             value = self[key] = type(self)()
@@ -53,6 +53,7 @@ class TrigramModel(NGramModel):
         #preps text
         self.nGramCounts = Vividict()
         listofwords = self.prepData(text)
+        print listofwords
         flattenList =[item for sublist in listofwords for item in sublist]
         
         
@@ -61,6 +62,7 @@ class TrigramModel(NGramModel):
         for unigram, bigram, trigram in counts:
             self.nGramCounts[unigram][bigram][trigram] = counts[(unigram, bigram, trigram)]
         self.nGramCounts = dict(self.nGramCounts)
+        print self.nGramCounts
         
     def trainingDataHasNGram(self, sentence):
         """
@@ -114,10 +116,11 @@ class TrigramModel(NGramModel):
 
 if __name__ == '__main__':
     # Add your tests here
-    text = [ ['the', 'quick', 'brown', 'fox'], ['the', 'lazy', 'dog'], ['hi'] ]
+    text = [ ['the', 'quick', 'brown', 'fox'], ['the', 'lazy', 'dog']]
+    #text.append([ 'quick', 'brown' ])
     #sentence = [ '^::^', '^:::^', 'the', 'quick', 'brown' ]
     sentence = [ '^::^', '^:::^']
     trigramModel = TrigramModel()
-    trigramModel.trainModel(text)
+    print trigramModel.trainModel(text)
 
 

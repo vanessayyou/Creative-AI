@@ -35,11 +35,13 @@ class BigramModel(NGramModel):
         def bigramiteration(words):
             count = len(words)
             for i in range(count - 1):
-                yield words[i], words[i + 1]
+                if(words[i] != '$:::$'):
+                    yield words[i], words[i + 1]
     
         #Preps text makes it so we can use the Counter() function on it
         self.nGramCounts = defaultdict(dict)
         listofwords = self.prepData(text)
+        print listofwords
         flattenList = [item for sublist in listofwords for item in sublist ]
         #Counts all the combitions generated
         counts = Counter(bigramiteration(words = flattenList))
@@ -47,6 +49,7 @@ class BigramModel(NGramModel):
         for unigram1, unigram2 in counts:
             self.nGramCounts[unigram1][unigram2] = counts[(unigram1, unigram2)]
         self.nGramCounts = dict(self.nGramCounts)
+        print self.nGramCounts
 
     def trainingDataHasNGram(self, sentence):
         """s
@@ -79,12 +82,12 @@ class BigramModel(NGramModel):
 if __name__ == '__main__':
     # Add your test cases here
     text = [ ['the', 'quick', 'brown', 'fox'], ['the', 'lazy', 'dog'] ]
-    text.append([ 'quick', 'brown' ])
-    sentence = [ 'lazy', 'the' ]
+    #text.append([ 'quick', 'brown' ])
+    #sentence = [ 'lazy', 'the' ]
     bigramModel = BigramModel()
     print(bigramModel)
     bigramModel.trainModel(text)
-    print(bigramModel.trainingDataHasNGram(sentence))
-    print(bigramModel.getCandidateDictionary(sentence))
+    #print(bigramModel.trainingDataHasNGram(sentence))
+    #print(bigramModel.getCandidateDictionary(sentence))
 
 
