@@ -31,6 +31,15 @@ class TrigramModel(NGramModel):
                   self.nGramCounts. For more details, see the spec.
         """
         #generator that makes possible trigrams
+        '''
+        def trigramiteration(words):
+            count = len(words)
+            for i in range(count - 2):
+                #print words[i], words[i+1], words[i+2]
+                if not ((words[i] == '$::$' and words[i+1] == '^::^') or (words[i+1] == '$::$' and words[i+2] == '^::^')):
+                	yield words[i], words[i+1], words[i+2]
+        '''
+
         def trigramiteration(words):
             count = len(words)
             for i in range(count - 2):
@@ -46,13 +55,13 @@ class TrigramModel(NGramModel):
         listofwords = self.prepData(text)
         flattenList =[item for sublist in listofwords for item in sublist]
         
+        
         #counts all generated trigrams
         counts = Counter(trigramiteration(words = flattenList))
         for unigram, bigram, trigram in counts:
             self.nGramCounts[unigram][bigram][trigram] = counts[(unigram, bigram, trigram)]
         self.nGramCounts = dict(self.nGramCounts)
-    
-
+        
     def trainingDataHasNGram(self, sentence):
         """
         Requires: sentence is a list of strings, and len(sentence) >= 2
@@ -64,9 +73,6 @@ class TrigramModel(NGramModel):
 
         if sentence[len(sentence) - 2] in self.nGramCounts.keys():
           if sentence[len(sentence)-1] in self.nGramCounts[sentence[len(sentence)-2]].keys():
-            #FIXME
-            #print sentence[len(sentence) - 2], sentence[len(sentence) - 1]
-            #print self.nGramCounts[sentence[len(sentence) - 2]][sentence[len(sentence) - 1]]
             return True
           else:
             return False
@@ -98,7 +104,7 @@ class TrigramModel(NGramModel):
           key1 = random.choice(self.nGramCounts.keys())
           key2 = random.choice(self.nGramCounts[key1].keys())
           return self.nGramCounts[key1][key2] '''
-        print sentence
+        #print sentence
         return self.nGramCounts[sentence[-2]][sentence[-1]]
 
 
@@ -113,7 +119,5 @@ if __name__ == '__main__':
     sentence = [ '^::^', '^:::^']
     trigramModel = TrigramModel()
     trigramModel.trainModel(text)
-    print trigramModel.trainingDataHasNGram(sentence)
-    print trigramModel.getCandidateDictionary(sentence)
 
 

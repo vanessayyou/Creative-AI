@@ -40,7 +40,7 @@ def sentenceTooLong(desiredLength, currentLength):
     val = random.gauss(currentLength, STDEV)
     return val > desiredLength
 
-def printSongLyrics(verseOne, verseTwo, chorus):
+def SongLyrics(verseOne, verseTwo, chorus):
     """
     Requires: verseOne, verseTwo, and chorus are lists of lists of strings
     Modifies: nothing
@@ -185,15 +185,16 @@ def runMusicGenerator(models, songName):
     """
     key = random.choice(KEY_SIGNATURES.keys())
     #tuplesList = generateMusicalSentence(models, 90, KEY_SIGNATURES[key])
-    tuplesList = generateMusicalSentence(models, 60, KEY_SIGNATURES[key])
+    melody = ['c', 'e', 'a']
+    #tuplesList = generateMusicalSentence(models, 60, KEY_SIGNATURES[key])
+    tuplesList = generateMusicalSentence(models, 120, melody)
 
     pysynth.make_wav(tuplesList, fn=songName)
 
     #reach
-    background_tuples_list = generateMusicalSentence(models, 4, KEY_SIGNATURES['c major'])
+    loop1 = ['c', 'a', 'e']
+    background_tuples_list = generateMusicalSentence(models, 4, loop1)
     length_background_tuples_list = len(background_tuples_list)
-    #FIXME
-    #print background_tuples_list
 
     background1 = []
     for x in range(0, 60):
@@ -225,10 +226,10 @@ def runMusicGenerator(models, songName):
     pysynth.make_wav(background1, fn=WAVDIR + 'background1.wav')
 
 
-    background_tuples_list = generateMusicalSentence(models, 4, KEY_SIGNATURES['e major'])
+    loop2 = ['a', 'a#', 'ab']
+    background_tuples_list = generateMusicalSentence(models, 4, loop2)
     length_background_tuples_list = len(background_tuples_list)
-    #FIXME
-    #print background_tuples_list
+
 
     background2 = []
     for x in range(0, 60):
