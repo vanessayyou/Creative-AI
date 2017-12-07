@@ -21,9 +21,9 @@ Here are a few notes to get you started:
 * Remember to update this file to describe your finished Final Project.
 
 Have fun on the project!
-
-#Reach  
-##Reddit Bot  
+  
+##Reach: 
+###Reddit Bot  
 **Welcome to RedditBot:**  
 This is a bot that will reply to any comment exactly once on a certain Reddit Thread if it contains the words
 "music" or "lyric", regardless of letter case. The following is the thread in question:  
