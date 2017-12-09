@@ -23,11 +23,11 @@ Here are a few notes to get you started:
 Have fun on the project!
   
 ## Reach: 
-### Reddit Bot  
+### 1. Reddit Bot  
 **Welcome to RedditBot:**  
 This is a bot that will reply to any comment exactly once on a certain Reddit Thread if it contains the words
 "music" or "lyric", regardless of letter case. The following is the thread in question:  
-https://www.reddit.com/r/MusicAndLyricBotPosts/comments/7hmasu/lyrics/
+https://www.reddit.com/r/MusicAndLyricBotPosts/comments/7hmasu/lyrics/  
 If the comment contains "lyrics", the bot will reply with some artifically generated lyrics.  
 If the comment contains "music", the bot will, right then and there, generate some music, access its own
 google drive, upload its music and reply with a link to the song on google drive!  
