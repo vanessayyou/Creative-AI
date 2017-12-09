@@ -40,4 +40,4 @@ The following files must be kept in the same folder:
 the same comment), 
 - "credentials.json" and "settings.yaml" which MUST NOT
 BE TOUCHED as they contain the access keys to RedditBot's own google account.
-Also, in order for the program to work, pydrive must be pip-installed for python 2.7.
+- Also, in order for the program to work, pydrive must be pip-installed for python 2.7.
