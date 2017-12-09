@@ -223,7 +223,7 @@ def runMusicGenerator(models, songName):
     pysynth.make_wav(background1, fn=WAVDIR + 'background1.wav')
 
 
-    loop2 = [KEY_SIGNATURES[key][5], KEY_SIGNATURES[key][6], KEY_SIGNATURES[key][7]]
+    loop2 = [KEY_SIGNATURES[key][4], KEY_SIGNATURES[key][5], KEY_SIGNATURES[key][6]]
     background_tuples_list = generateMusicalSentence(models, 4, loop2)
     length_background_tuples_list = len(background_tuples_list)
 
