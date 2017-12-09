@@ -11,9 +11,6 @@ from models.bigramModel import *
 from models.trigramModel import *
 
 
-
-
-
 #REACH
 from pydub import AudioSegment
 
@@ -40,7 +37,7 @@ def sentenceTooLong(desiredLength, currentLength):
     val = random.gauss(currentLength, STDEV)
     return val > desiredLength
 
-def SongLyrics(verseOne, verseTwo, chorus):
+def printSongLyrics(verseOne, verseTwo, chorus):
     """
     Requires: verseOne, verseTwo, and chorus are lists of lists of strings
     Modifies: nothing
@@ -226,7 +223,7 @@ def runMusicGenerator(models, songName):
     pysynth.make_wav(background1, fn=WAVDIR + 'background1.wav')
 
 
-    loop2 = ['a', 'a#', 'ab']
+    loop2 = [KEY_SIGNATURES[key][5], KEY_SIGNATURES[key][6], KEY_SIGNATURES[key][7]]
     background_tuples_list = generateMusicalSentence(models, 4, loop2)
     length_background_tuples_list = len(background_tuples_list)
 
