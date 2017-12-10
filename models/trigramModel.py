@@ -35,16 +35,9 @@ class TrigramModel(NGramModel):
         def trigramiteration(words):
             count = len(words)
             for i in range(count - 2):
-                #print words[i], words[i+1], words[i+2]
                 if words[i] != '$:::$':
                 	yield words[i], words[i+1], words[i+2]
         
-        '''
-        def trigramiteration(words):
-            count = len(words)
-            for i in range(count - 2):
-                yield words[i], words[i+1], words[i+2]
-        '''
         class Vividict(dict):
           def __missing__(self, key):
             value = self[key] = type(self)()
@@ -53,16 +46,13 @@ class TrigramModel(NGramModel):
         #preps text
         self.nGramCounts = Vividict()
         listofwords = self.prepData(text)
-        print listofwords
-        flattenList =[item for sublist in listofwords for item in sublist]
-        
+        flattenList =[item for sublist in listofwords for item in sublist] 
         
         #counts all generated trigrams
         counts = Counter(trigramiteration(words = flattenList))
         for unigram, bigram, trigram in counts:
             self.nGramCounts[unigram][bigram][trigram] = counts[(unigram, bigram, trigram)]
         self.nGramCounts = dict(self.nGramCounts)
-        print self.nGramCounts
         
     def trainingDataHasNGram(self, sentence):
         """
@@ -121,6 +111,5 @@ if __name__ == '__main__':
     #sentence = [ '^::^', '^:::^', 'the', 'quick', 'brown' ]
     sentence = [ '^::^', '^:::^']
     trigramModel = TrigramModel()
-    print trigramModel.trainModel(text)
 
 

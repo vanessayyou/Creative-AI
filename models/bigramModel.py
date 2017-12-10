@@ -41,15 +41,15 @@ class BigramModel(NGramModel):
         #Preps text makes it so we can use the Counter() function on it
         self.nGramCounts = defaultdict(dict)
         listofwords = self.prepData(text)
-        print listofwords
         flattenList = [item for sublist in listofwords for item in sublist ]
+
         #Counts all the combitions generated
         counts = Counter(bigramiteration(words = flattenList))
+        
         #indexes all new data into the self.nGramCounts dictionary
         for unigram1, unigram2 in counts:
             self.nGramCounts[unigram1][unigram2] = counts[(unigram1, unigram2)]
         self.nGramCounts = dict(self.nGramCounts)
-        print self.nGramCounts
 
     def trainingDataHasNGram(self, sentence):
         """s
