@@ -22,9 +22,13 @@ Here are a few notes to get you started:
 
 Have fun on the project!
   
+
 ## Reach: 
-### 1. Reddit Bot  
+
+### 1. Reddit Bot 
+
 **Welcome to RedditBot:**  
+
 This is a bot that will reply to any comment exactly once on a certain Reddit Thread if it contains the words
 "music" or "lyric", regardless of letter case. The following is the thread in question:  
 - <a href="https://www.reddit.com/r/MusicAndLyricBotPosts/comments/7i1yuw/demonstrational_post/" target="_blank">Link to the demonstrational post in our subreddit.</a>    
@@ -40,4 +44,11 @@ The following files must be kept in the same folder:
 the same comment), 
 - "credentials.json" and "settings.yaml" which MUST NOT
 BE TOUCHED as they contain the access keys to RedditBot's own google account.
-- Also, in order for the program to work, pydrive must be pip-installed for python 2.7.
+- Also, in order for the program to work, praw and pydrive must be pip-installed for python 2.7.
+
+### 2. Musical Harmony
+
+- In order for generate.py to produce more complex music with different layers, pydub must be pip-installed for python 2.7.
+- Detailed instructions for installing pydub: https://github.com/jiaaro/pydub#installation
+
+
