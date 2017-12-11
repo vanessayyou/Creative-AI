@@ -273,7 +273,7 @@ def make_wav(song,bpm=120,transpose=0,leg_stac=.9,boost=1.1,repeat=0,fn="out.wav
 			y += '4'
 		cache_this[y] = cache_this.get(y, 0) + 1
 	#print "Note frequencies in song:", cache_this
-	data = np.zeros((repeat+1)*t_len + 441000.)
+	data = np.zeros(int((repeat+1)*t_len + 441000.))
 	#print len(data)/44100., "s allocated"
 
 	for rp in range(repeat+1):

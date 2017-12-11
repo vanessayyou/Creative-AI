@@ -219,7 +219,7 @@ def make_wav(song,bpm=120,transpose=0,pause=0.,boost=1.1,repeat=0,fn="out.wav",s
 			t_len+=length(-2.*x/3.)
 		else:
 			t_len+=length(x)
-	data = np.zeros((repeat+1)*t_len + 20. * 44100.)
+	data = np.zeros(int((repeat+1)*t_len + 20. * 44100.))
 	#print len(data)/44100., "s allocated"
 
 	for rp in range(repeat+1):
