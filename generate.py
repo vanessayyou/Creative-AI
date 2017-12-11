@@ -10,15 +10,12 @@ from models.unigramModel import *
 from models.bigramModel import *
 from models.trigramModel import *
 
-
 #REACH
 from pydub import AudioSegment
 from pysynth import pysynth_s
 from pysynth import pysynth_b
 from pysynth import pysynth_e
 
-
-# FIXME Add your team name
 TEAM = 'Creative A.I. but not creative title'
 LYRICSDIRS = ['the_beatles']
 MUSICDIRS = ['gamecube']
@@ -183,115 +180,54 @@ def runMusicGenerator(models, songName):
     Modifies: nothing
     Effects:  runs the music generator as following the details in the spec.
     """
-    key = random.choice(KEY_SIGNATURES.keys())
-    #tuplesList = generateMusicalSentence(models, 90, KEY_SIGNATURES[key])
+
+    #create the melody
+    key_list = ['c major', 'd major', 'eb major', 'e major', 'f major', 'a major']
+    key = random.choice(key_list)
     melody = [KEY_SIGNATURES[key][0], KEY_SIGNATURES[key][2], KEY_SIGNATURES[key][4], KEY_SIGNATURES[key][6]]
-    #tuplesList = generateMusicalSentence(models, 60, KEY_SIGNATURES[key])
     tuplesList = generateMusicalSentence(models, 60, melody)
-
-    #pysynth.make_wav(tuplesList, fn=songName)
     pysynth_s.make_wav(tuplesList, fn=songName)
-    
 
-    beat = AudioSegment.from_file("EECS Beat 1.wav")
-    original_beat = beat
-    original_bass = AudioSegment.from_file("EECS Bass 1.wav")
-    bass = original_bass - 10
+    #choose a beat and a bass for the music
+    beat_choice = random.randint(0, 2)
+    if beat_choice == 0:
+        original_beat = AudioSegment.from_file("EECS Beat 1.wav")
+    else:
+        original_beat = AudioSegment.from_file("EECS Beat 2.wav")
+    original_beat = original_beat - 5
+    beat = original_beat - 10
 
-    #reach
+    bass_choice = random.randint(0, 2)
+    if bass_choice == 0:
+        original_bass = AudioSegment.from_file("EECS Bass 1.wav")
+        bass = original_bass - 10
+    else:
+        original_bass = AudioSegment.from_file("EECS Bass 2.wav")
+        bass = original_bass - 18
+
+    #create the first background loop
     loop1 = [KEY_SIGNATURES[key][0], KEY_SIGNATURES[key][2], KEY_SIGNATURES[key][4]]
     background_tuples_list = generateMusicalSentence(models, 60, loop1)
     length_background_tuples_list = len(background_tuples_list)
-    #pysynth.make_wav(background_tuples_list, fn=WAVDIR + 'background1original.wav')
     pysynth_e.make_wav(background_tuples_list, fn=WAVDIR + 'background1original.wav')
-    pysynth_s.make_wav(background_tuples_list, fn=WAVDIR + 'background1original2.wav')
     background1_original = AudioSegment.from_file(WAVDIR + "background1original.wav")
-    background1_original_2 = AudioSegment.from_file(WAVDIR + "background1original2.wav")
-    sound3 = background1_original_2[:len(original_beat)]*5
-
-
-    #background1 = []
     background1 = background1_original[:len(original_beat)]*5
     background1.export(WAVDIR + "background1.wav", format='wav')
-    '''
-    for i in range(0, 3):
-        background_tuples_list = generateMusicalSentence(models, 4, loop1)
-        length_background_tuples_list = len(background_tuples_list)
-        for x in range(0, 15):
-
-            if length_background_tuples_list == 1:
-              background1.append(background_tuples_list[0])
-            elif length_background_tuples_list == 2:
-                if (x + 1) % 4 == 1:
-                    background1.append(background_tuples_list[0])
-                elif (x + 1) % 4 == 2:
-                    background1.append(background_tuples_list[1])
-            elif length_background_tuples_list == 3:
-                if (x + 1) % 4 == 1:
-                    background1.append(background_tuples_list[0])
-                elif (x + 1) % 4 == 2:
-                    background1.append(background_tuples_list[1])
-                elif (x + 1) % 4 == 3:
-                    background1.append(background_tuples_list[2])
-            else:
-                if (x + 1) % 4 == 1:
-                    background1.append(background_tuples_list[0])
-                elif (x + 1) % 4 == 2:
-                    background1.append(background_tuples_list[1])
-                elif (x + 1) % 4 == 3:
-                    background1.append(background_tuples_list[2])
-                else:
-                    background1.append(background_tuples_list[3])
-    '''
-
-
     
+    #create the second background loop
     loop2 = [KEY_SIGNATURES[key][4], KEY_SIGNATURES[key][5], KEY_SIGNATURES[key][6]]
     background_tuples_list = generateMusicalSentence(models, 60, loop2)
     length_background_tuples_list = len(background_tuples_list)
-    #pysynth.make_wav(background_tuples_list, fn=WAVDIR + 'background2original.wav')
     pysynth_s.make_wav(background_tuples_list, fn=WAVDIR + 'background2original.wav')
     background2_original = AudioSegment.from_file(WAVDIR + "background2original.wav")
-
-
-
-    #background2 = []
     background2 = background2_original[::len(original_beat)]*5
     background2.export(WAVDIR + "background2.wav", format='wav')
-    '''
-    for x in range(0, 60):
-        if length_background_tuples_list == 1:
-            background2.append(background_tuples_list[0])
-        elif length_background_tuples_list == 2:
-            if (x + 1) % 4 == 1:
-                background2.append(background_tuples_list[0])
-            elif (x + 1) % 4 == 2:
-                background2.append(background_tuples_list[1])
-        elif length_background_tuples_list == 3:
-            if (x + 1) % 4 == 1:
-                background2.append(background_tuples_list[0])
-            elif (x + 1) % 4 == 2:
-                background2.append(background_tuples_list[1])
-            elif (x + 1) % 4 == 3:
-                background2.append(background_tuples_list[2])
-        else:
-            if (x + 1) % 4 == 1:
-                background2.append(background_tuples_list[0])
-            elif (x + 1) % 4 == 2:
-                background2.append(background_tuples_list[1])
-            elif (x + 1) % 4 == 3:
-                background2.append(background_tuples_list[2])
-            else:
-                background2.append(background_tuples_list[3])
-    '''
-
-
-    
  
     sound1 = AudioSegment.from_file(WAVDIR + "background1.wav") - 6
     sound2 = AudioSegment.from_file(WAVDIR + "background2.wav")
     sound3 = AudioSegment.from_file(songName)
 
+    #obtain the shortest length among all the sounds generated
     if len(sound1) < len(sound2):
         if len(sound3) < len(sound1):
             music_length = len(sound3)
@@ -303,34 +239,30 @@ def runMusicGenerator(models, songName):
         else:
             music_length = len(sound3)
 
+    #combine the sounds generated
     combined1 = sound1.overlay(sound2)
-
     combined1.export(WAVDIR + "combined1.wav", format='wav')
-
     combined2 = combined1.overlay(sound3)
-
     combined2.export(WAVDIR + "combined2.wav", format='wav')
 
-
+    #loop the beat and the bass
     while len(beat) < len(combined2):
         beat = beat + beat 
     combined3 = combined2.overlay(beat)
-
     while len(bass) < len(combined3):
         bass = bass + bass
     combined3 = combined3.overlay(bass)
-
     combined3 = combined3[:music_length]
+    combined3 = original_beat + original_beat.overlay(sound2).overlay(sound3)[:len(original_beat)] + combined3
 
-
-    combined3 = original_beat + original_beat.overlay(sound2).overlay(sound1)[:len(original_beat)] + combined3
+    #reduce the length if over a minute and half and fade out at the end of music
     if len(combined3) > 63000:
         combined3 = combined3[:63000]
     combined3 = combined3.fade_out(duration=2000)
 
+    #remove all the extra sound files
     os.remove("wav/combined1.wav")
     os.remove("wav/background1original.wav")
-    os.remove("wav/background1original2.wav")
     os.remove("wav/background2original.wav")
     os.remove("wav/background2.wav")
     os.remove("wav/background1.wav")
