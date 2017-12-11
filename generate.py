@@ -272,7 +272,17 @@ def runMusicGenerator(models, songName):
     os.remove("wav/background2.wav")
     os.remove("wav/background1.wav")
 
-    combined2.export(songName, format='wav')
+    combined2.export(WAVDIR + "combined2.wav", format='wav')
+
+    os.remove("wav/combined2.wav")
+
+    beat = AudioSegment.from_file("EECS Beat 1.wav")
+
+    while len(beat) < len(combined2):
+        beat = beat + beat 
+    combined3 = combined2.overlay(beat)
+
+    combined3.export(songName, format='wav')
 
 ###############################################################################
 # Reach
