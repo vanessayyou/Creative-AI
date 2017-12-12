@@ -48,7 +48,7 @@ BE TOUCHED as they contain the access keys to RedditBot's own google account.
 
 ### 2. Musical Harmony
 
-- In order for generate.py to produce more complex music with different layers, pydub must be pip-installed for python 2.7.
+- In order for generate.py to produce more complex music with different layers, pydub and numPy must be pip-installed for python 2.7.
 - Detailed instructions for installing pydub: https://github.com/jiaaro/pydub#installation
 
 
