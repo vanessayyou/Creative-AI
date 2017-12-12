@@ -30,7 +30,8 @@ Have fun on the project!
 **Welcome to RedditBot:**  
 
 This is a bot that will reply to any comment exactly once on a certain Reddit Thread if it contains the words
-"music" or "lyric", regardless of letter case. The following is the thread in question:  
+"music" or "lyric", regardless of letter case. All API keys and credentials are already provided in the redditBot.py file.  
+The following is the demonstrational thread:  
 - <a href="https://www.reddit.com/r/MusicAndLyricBotPosts/comments/7i1yuw/demonstrational_post/" target="_blank">Link to the demonstrational post in our subreddit.</a>    
 * If the comment contains "lyrics", the bot will reply with some artifically generated lyrics.  
 * If the comment contains "music", the bot will, right then and there, generate some music, access its own
@@ -45,6 +46,7 @@ the same comment),
 - "credentials.json" and "settings.yaml" which MUST NOT
 BE TOUCHED as they contain the access keys to RedditBot's own google account.
 - Also, in order for the program to work, praw and pydrive must be pip-installed for python 2.7.
+- In case you need the username and password of the reddit bot account, the credentials are: eecsLyricsGenerator (user) eecs183 (password)
 
 ### 2. Musical Harmony
 
